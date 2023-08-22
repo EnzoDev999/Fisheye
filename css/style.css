@@ -83,3 +83,36 @@ header h1{
     font-size: 13px;
     color: #757575;
 }
+
+
+/* CARDS ANIMATIONS */
+
+.photographer-card {
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .photographer-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .photographer-name {
+    position: relative;
+    overflow: hidden; /* Pour masquer la partie de la barre qui dépasse */
+  }
+  
+  .photographer-name::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #D3573C;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .photographer-card:hover .photographer-name::before {
+    width: 100%;
+  }
