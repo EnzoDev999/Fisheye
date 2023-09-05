@@ -1,1 +1,7 @@
-//Mettre le code JavaScript lié à la page photographer.html
+import {
+  photographerImage,
+  photographerName,
+  photographerPrice,
+  photographerTagline,
+  photographerCity,
+} from "./index.js";

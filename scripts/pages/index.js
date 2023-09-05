@@ -1,6 +1,13 @@
 import { buildImage } from "../utils/buildImage.js";
 import { buildText } from "../utils/buildText.js";
 
+// on défini nos constantes en dehors de la fonction createPhotographerCard (pour faciliter l'exportation)
+let photographerImage;
+let photographerName;
+let photographerCity;
+let photographerTagline;
+let photographerPrice;
+
 async function getPhotographers() {
   const response = await fetch("data/photographers.json");
   const data = await response.json();
@@ -15,18 +22,20 @@ function createPhotographerCard(photographer) {
   const card = document.createElement("article");
   card.classList.add("photographer-card");
 
-  const image = buildImage(`assets/photographers/${photographer.portrait}`, {
-    alt: photographer.name,
-    containerClass: "photographer-image", // Utilisation de notre classe de conteneur personnalisée
-  });
-
-  // Utilisation de innerHTML pour convertir la chaîne HTML en élément DOM
-  card.innerHTML = image;
+  photographerImage = buildImage(
+    `assets/photographers/${photographer.portrait}`,
+    {
+      alt: photographer.name,
+      containerClass: "photographer-image",
+    }
+  );
+  // On intègre l'html défini dans notre constante juste avant dans notre DOM
+  card.innerHTML = photographerImage;
 
   const info = document.createElement("div");
   info.classList.add("photographer-info");
 
-  const photographerName = buildText({
+  photographerName = buildText({
     tag: "h2",
     className: "photographer-name",
     text: photographer.name,
@@ -37,7 +46,7 @@ function createPhotographerCard(photographer) {
   });
   info.appendChild(photographerName);
 
-  const photographerCity = buildText({
+  photographerCity = buildText({
     tag: "p",
     className: "photographer-city",
     text: `${photographer.city}, ${photographer.country}`,
@@ -47,7 +56,7 @@ function createPhotographerCard(photographer) {
   });
   info.appendChild(photographerCity);
 
-  const photographerTagline = buildText({
+  photographerTagline = buildText({
     tag: "p",
     className: "photographer-tagline",
     text: photographer.tagline,
@@ -57,7 +66,7 @@ function createPhotographerCard(photographer) {
   });
   info.appendChild(photographerTagline);
 
-  const photographerPrice = buildText({
+  photographerPrice = buildText({
     tag: "p",
     className: "photographer-price",
     text: `${photographer.price}€/jour`,
@@ -91,3 +100,12 @@ async function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+// On exporte nos constantes
+export {
+  photographerImage,
+  photographerName,
+  photographerCity,
+  photographerTagline,
+  photographerPrice,
+};
