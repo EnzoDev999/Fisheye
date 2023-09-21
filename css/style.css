@@ -5,6 +5,21 @@ body {
     margin: 0;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page{
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1440px;
+} 
 
 header {
     display: flex;
@@ -28,7 +43,7 @@ header h1{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
 .photographer_section article {
@@ -37,7 +52,7 @@ header h1{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    cursor: pointer;
+
 }
 
 .photographer_section article img {
@@ -48,12 +63,6 @@ header h1{
     box-shadow: 3px 2px 15px rgba(0, 0, 0, 0.2);
 }
 
-.page{
-    margin: 0 auto;
-    padding: 20px;
-    max-width: 1400px;
-} 
-
 .photographer-info{
     display: flex;
     justify-content: center;
@@ -61,20 +70,21 @@ header h1{
     flex-direction: column;
 }
 
-
-.photographer-info p{
-    margin: 1px;
+.photographer-redirect{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
-
 
 /* CARDS ANIMATIONS */
 
-.photographer-card {
+.photographer-redirect figure {
     position: relative;
     transition: transform 0.3s ease-in-out;
   }
   
-  .photographer-card:hover {
+  .photographer-redirect:hover figure {
     transform: scale(1.05);
   }
   
@@ -95,6 +105,6 @@ header h1{
     transition: width 0.3s ease-in-out;
   }
   
-  .photographer-card:hover .photographer-name::before {
+  .photographer-redirect:hover .photographer-name::before {
     width: 100%;
   }

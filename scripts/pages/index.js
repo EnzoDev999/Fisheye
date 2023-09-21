@@ -1,111 +1,69 @@
-import { buildImage } from "../utils/buildImage.js";
-import { buildText } from "../utils/buildText.js";
+// Import des éventuels modules nécessaires
+import { textExemple } from "../utils/textExemple.js";
 
-// on défini nos constantes en dehors de la fonction createPhotographerCard (pour faciliter l'exportation)
-let photographerImage;
-let photographerName;
-let photographerCity;
-let photographerTagline;
-let photographerPrice;
+// Sélectionne l'élément HTML où on veut afficher les photographes
+const photographerSection = document.querySelector(".photographer_section");
 
-async function getPhotographers() {
-  const response = await fetch("data/photographers.json");
-  const data = await response.json();
-  return data.photographers;
-}
+// Utilise fetch pour charger le fichier JSON des photographes
+fetch("../../data/photographers.json")
+  .then((response) => response.json())
+  .then((photographersData) => {
+    // Parcours la liste des photographes et génère les éléments pour chaque photographe
+    photographersData.photographers.forEach((photographer) => {
+      // Crée un élément <article> pour chaque photographe
+      const photographerCard = document.createElement("article");
+      photographerCard.classList.add("photographer-card");
 
-function redirectToPhotographerPage(photographerId) {
-  window.location.href = `photographer.html?id=${photographerId}`;
-}
+      // Crée un élément <a> qui vas permettre d'englober les éléments qu'on souhaites rendre cliquable
+      const photographerLink = document.createElement("a");
+      photographerLink.href = `photographer.html?id=${photographer.id}`;
+      photographerLink.classList.add("photographer-redirect");
 
-function createPhotographerCard(photographer) {
-  const card = document.createElement("article");
-  card.classList.add("photographer-card");
+      // Crée une image du photographe avec textExemple
+      const photographerImageElement = textExemple(
+        photographer,
+        "photographerImage"
+      );
 
-  photographerImage = buildImage(
-    `assets/photographers/${photographer.portrait}`,
-    {
-      alt: photographer.name,
-      containerClass: "photographer-image",
-    }
-  );
-  // On intègre l'html défini dans notre constante juste avant dans notre DOM
-  card.innerHTML = photographerImage;
+      // Crée d'autres éléments (nom, pays/ville, tagline, prix) en utilisant textExemple
+      const photographerNameElement = textExemple(
+        photographer,
+        "photographerName"
+      );
+      const photographerCityElement = textExemple(
+        photographer,
+        "photographerCity"
+      );
+      const photographerTaglineElement = textExemple(
+        photographer,
+        "photographerTagLine"
+      );
+      const photographerPriceElement = textExemple(
+        photographer,
+        "photographerPrice"
+      );
 
-  const info = document.createElement("div");
-  info.classList.add("photographer-info");
+      // Ajoute ces éléments à l'article du photographe (faire attention à l'ordre)
 
-  photographerName = buildText({
-    tag: "h2",
-    className: "photographer-name",
-    text: photographer.name,
-    color: "#D3573C",
-    fontSize: "36px",
-    margin: "10px 0 5px",
-    fontWeight: "400",
+      // On veut que le <a> (photographerLink) contienne le "photographerNameElement" et le "photographerImageElement"
+      photographerLink.appendChild(photographerImageElement);
+      photographerLink.appendChild(photographerNameElement);
+      // Enfin on ajoute la balise globale "photographerLink" (contenant "photographerNameElement" et
+      // "photographerImageElement") en tant qu'enfant de notre card
+      photographerCard.appendChild(photographerLink);
+
+      // ajout du reste des éléments
+      photographerCard.appendChild(photographerCityElement);
+      photographerCard.appendChild(photographerTaglineElement);
+      photographerCard.appendChild(photographerPriceElement);
+
+      // Ajoute l'article du photographe à la section des photographes
+      photographerSection.appendChild(photographerCard);
+    });
+  })
+  .catch((error) => {
+    console.error(
+      "Une erreur s'est produite lors du chargement des données :",
+      error
+    );
   });
-  info.appendChild(photographerName);
-
-  photographerCity = buildText({
-    tag: "p",
-    className: "photographer-city",
-    text: `${photographer.city}, ${photographer.country}`,
-    color: "#901C1C",
-    fontSize: "18px",
-    fontWeight: "400",
-  });
-  info.appendChild(photographerCity);
-
-  photographerTagline = buildText({
-    tag: "p",
-    className: "photographer-tagline",
-    text: photographer.tagline,
-    color: "black",
-    fontSize: "15px",
-    fontWeight: "400",
-  });
-  info.appendChild(photographerTagline);
-
-  photographerPrice = buildText({
-    tag: "p",
-    className: "photographer-price",
-    text: `${photographer.price}€/jour`,
-    color: "#757575",
-    fontSize: "13px",
-    fontWeight: "400",
-  });
-  info.appendChild(photographerPrice);
-
-  card.appendChild(info);
-
-  card.addEventListener("click", () => {
-    redirectToPhotographerPage(photographer.id);
-  });
-
-  return card;
-}
-
-async function displayData(photographers) {
-  const photographersSection = document.querySelector(".photographer_section");
-
-  photographers.forEach((photographer) => {
-    const photographerCard = createPhotographerCard(photographer);
-    photographersSection.appendChild(photographerCard);
-  });
-}
-
-async function init() {
-  const photographers = await getPhotographers();
-  displayData(photographers);
-}
-
-document.addEventListener("DOMContentLoaded", init);
-
-// On exporte nos constantes
-export {
-  photographerImage,
-  photographerName,
-  photographerCity,
-  photographerTagline,
-  photographerPrice,
-};

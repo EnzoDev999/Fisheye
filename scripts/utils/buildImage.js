@@ -1,43 +1,58 @@
-// Fonction BuildImage qui va prendre en paramètre "src" donc l'image
-// ainsi que "options" qui va permettre la définition de plusieurs autres options
-
 const buildImage = (src, options = {}) => {
   try {
-    // Vérification si le chargement de l'image a échoué
     if (!src) {
       throw new Error("Image source is missing or invalid.");
     }
 
-    // Classe par défaut pour le conteneur de l'image si aucun n'est définit
-    const containerClass = options?.containerClass || "image-container"; // utilisation de "?" afin d'éviter d'eventuelles erreurs (Optional Chaining)
+    const {
+      containerClass = "image-container",
+      width,
+      height,
+      alt,
+      imgClass,
+      loading = "lazy",
+      link,
+    } = options;
 
-    // Fonction "img" qui va permettre la création du code qui sera réutilisable
-    const img = `
-      <div class="${containerClass}">
-        <img 
-          src="${src}"
-          width="${options?.width || "100%"}" 
-          height="${options?.height || "auto"}"
-          alt="${options?.alt || ""}"
-          class="${options?.imgClass || ""}"
-          loading="${
-            options?.loading || "lazy"
-          }"/> <!-- L'attribut loading="lazy" retarde le chargement de l'image pour améliorer les performances -->
-      </div>
-    `;
+    // Crée le conteneur de l'image (figure)
+    const figureElement = document.createElement("figure");
+    figureElement.classList.add(containerClass);
 
-    // Vérification si on doit ajouter un lien
-    if (options.link) {
-      return `<a href="${options.link}">${img}</a>`;
+    // Crée l'élément image (img)
+    const imgElement = document.createElement("img");
+    imgElement.src = src;
+
+    // Vérifie chaque option avant de l'ajouter à l'élément image
+    if (width) {
+      imgElement.width = width;
+    }
+    if (height) {
+      imgElement.height = height;
+    }
+    if (alt) {
+      imgElement.alt = alt;
+    }
+    if (imgClass) {
+      imgElement.classList.add(imgClass);
+    }
+    imgElement.loading = loading;
+
+    // Ajoute l'élément image au conteneur (figure)
+    figureElement.appendChild(imgElement);
+
+    // Si un lien est spécifié, crée un lien autour de l'image
+    if (link) {
+      const linkElement = document.createElement("a");
+      linkElement.href = link;
+      linkElement.appendChild(figureElement);
+      return linkElement;
     } else {
-      // Sinon on retourne juste l'image sans link
-      return img;
+      return figureElement;
     }
   } catch (error) {
-    //On affiche l'éventuelle erreur dans la console
     console.error("Error building image:", error);
-    return ""; // Retourner une chaîne vide en cas d'erreur
+    return "";
   }
 };
-// J'exporte notre fonction afin qu'elle soit réutilisable
+
 export { buildImage };

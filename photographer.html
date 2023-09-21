@@ -8,32 +8,60 @@
     <title>Fisheye - photographe </title>
   </head>
   <body>
-    <header>
-      <a href="index.html">
-        <img src="assets/images/logo.png" class="logo" alt="fisheye logo"/>
-      </a>
-    </header>
-    <main id="main">
-      <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+    <div class="page">
+      <header>
+        <a href="index.html">
+          <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page"/>
+        </a>
+      </header>
+      <main id="main">
+        <div class="photograph-header">
+          <button class="contact_button">Contactez-moi</button>
+        </div>
+      </main>
+      <div id="contact_modal">
+        <div class="modal">
+          <header class="modal-header">
+            <div class="ph-info">
+            <h1>Contactez-moi</h1>
+            <h1 id="photographer-name"></h1>
+            </div>
+            <img class="close_icon" src="assets/icons/close.svg" />
+          </header>
+          <form>
+            
+            <!-- Prénom -->
+            <div>
+              <label for="first_name">Prénom</label>
+              <input type="text" id="first_name" required>
+            </div>
+      
+            <!-- Nom -->
+            <div>
+              <label for="last_name">Nom</label>
+              <input type="text" id="last_name" required>
+            </div>
+      
+            <!-- Email -->
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" required>
+            </div>
+      
+            <!--  message -->
+            <div>
+              <label for="message">Votre message</label>
+              <textarea id="message" rows="4"></textarea>
+            </div>
+      
+            <!-- Bouton Envoyer -->
+            <button class="contact_button" type="submit">Envoyer</button>
+          </form>
+        </div>
       </div>
-    </main>
-    <div id="contact_modal">
-			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
-    <script src="/scripts/pages/photographer.js"></script>
+      
+    </div>
+    <script type="module" src="scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>
