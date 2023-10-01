@@ -1,8 +1,8 @@
-import { buildImage } from "../utils/buildImage.js";
-import { buildText } from "../utils/buildText.js";
+import { buildImage } from "./buildImage.js";
+import { buildText } from "./buildText.js";
 
-// Définir la fonction textExemple
-function textExemple(
+// Définir la fonction textsBase
+function textsBase(
   photographer,
   elementName,
   customTag = null,
@@ -116,5 +116,5 @@ function textExemple(
   }
 }
 
-// Exporter la fonction textExemple
-export { textExemple };
+// Exporter la fonction textsBase
+export { textsBase };

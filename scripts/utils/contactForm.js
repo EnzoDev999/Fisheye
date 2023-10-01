@@ -19,7 +19,7 @@ function closeModal() {
 
   // Supprime la classe "modal-open" du body
   const body = document.querySelector("body");
-  body.classList.remove("modal-open");
+  body.removeAttribute("class");
 }
 
 const closeIcon = document.querySelector(".close_icon");

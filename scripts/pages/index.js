@@ -1,5 +1,5 @@
 // Import des éventuels modules nécessaires
-import { textExemple } from "../utils/textExemple.js";
+import { textsBase } from "../templates/textsBase.js";
 
 // Sélectionne l'élément HTML où on veut afficher les photographes
 const photographerSection = document.querySelector(".photographer_section");
@@ -19,26 +19,26 @@ fetch("../../data/photographers.json")
       photographerLink.href = `photographer.html?id=${photographer.id}`;
       photographerLink.classList.add("photographer-redirect");
 
-      // Crée une image du photographe avec textExemple
-      const photographerImageElement = textExemple(
+      // Crée une image du photographe avec textsBase
+      const photographerImageElement = textsBase(
         photographer,
         "photographerImage"
       );
 
-      // Crée d'autres éléments (nom, pays/ville, tagline, prix) en utilisant textExemple
-      const photographerNameElement = textExemple(
+      // Crée d'autres éléments (nom, pays/ville, tagline, prix) en utilisant textsBase
+      const photographerNameElement = textsBase(
         photographer,
         "photographerName"
       );
-      const photographerCityElement = textExemple(
+      const photographerCityElement = textsBase(
         photographer,
         "photographerCity"
       );
-      const photographerTaglineElement = textExemple(
+      const photographerTaglineElement = textsBase(
         photographer,
         "photographerTagLine"
       );
-      const photographerPriceElement = textExemple(
+      const photographerPriceElement = textsBase(
         photographer,
         "photographerPrice"
       );

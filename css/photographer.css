@@ -2,6 +2,10 @@
     display: none;
 }
 
+.modal-open, .lightboxOpen{
+    overflow: hidden;
+}
+
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
@@ -86,12 +90,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 35px;
-    margin: 62px auto;
+    margin: 2px auto;
 }
 
-.modal-open{
-    overflow: hidden;
-}
 .modal-header {
     justify-content: space-between;
     width: 100%;
@@ -109,7 +110,7 @@
 }
 
 .ph-info h1{
-    font-size: 64px;
+    font-size: 60px;
     font-weight: normal;
     text-align: center;
     color: #000;
@@ -157,18 +158,11 @@ form input {
 /* GALLERY SECTION */
 
 
-.media-container{
+.media-grid{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 95px;
     margin: 101px 100px 0 100px;
-}
-
-.media-container .media{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 .media img{
@@ -187,7 +181,7 @@ form input {
 .price-likes-container {
     position: fixed;
     display: flex;
-    justify-content:flex-end;
+    justify-content: space-between;
     align-items: center;
     bottom: 0;
     right: 0;
@@ -199,6 +193,71 @@ form input {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 999; /* ainsi l'encart sera au dessus de tout */
+    z-index: 999;
+  }
+  
+
+.totalLikes-heartIcon-container{
+    display: flex;
+    font-size: 24px;
+    color: black;
+    gap: 5px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+.totalLikes-heartIcon-container i{
+    align-items: center;
+    display: flex;
+}
+
+  /* Style général pour le conteneur des likes/nom */
+.media-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: space-between;
+  }
+  
+  .media-name{
+    font-size: 20px;
+    color: #901C1C;
+    font-weight: bold;
+  }
+
+  .like-container{
+    display: flex;
+    gap: 5px;
+  }
+
+  /* Style pour le bouton de like */
+  .like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0;
+    margin-right: 8px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Style pour l'icône de like */
+
+  /* Non Like */
+  .like-button .far.fa-heart {
+    color: #901C1C; 
+  }
+  
+  /* Liked */
+  .like-button .fa-heart.fas {
+    display: inline; /* Affiche l'icône pleine */
+    color: #901C1C; /* Couleur du cœur rempli lorsqu'il est aimé */
+  }
+  
+  /* Style pour le compteur de likes */
+  .like-count {
+    font-size: 24px;
+    font-weight: bold;
+    color: #901C1C;
   }
   

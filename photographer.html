@@ -2,6 +2,10 @@
 <html>
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/lightBox.css" type="text/css">
+    <link rel="stylesheet" href="css/mediaSort.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
@@ -9,15 +13,46 @@
   </head>
   <body>
     <div class="page">
-      <header>
+      <header role="banner">
         <a href="index.html">
           <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page"/>
         </a>
       </header>
       <main id="main">
-        <div class="photograph-header">
+
+        <!-- HEADER SECTION -->
+
+        <header class="photograph-header" aria-label="photographer information">
           <button class="contact_button">Contactez-moi</button>
-        </div>
+        </header>
+
+        <!-- DROPDOWN -->
+
+        <div class="works-sort">
+          <span id="sort-text">Trier par</span>
+          <div id="sort-wrapper">
+              <button class="sort-btn" aria-haspopup="listbox">Popularité</button>
+              <span class="fas fa-chevron-down arrow-down-open" role='button'></span>
+              <ul class="hidden-sort" role="listbox">
+                  <li class="sort" role='option'>Popularité<span class="fas fa-chevron-up arrow-up-close"></span>
+                  </li>
+                  <li class="sort" role='option'>Date</li>
+                  <li class="sort" role='option'>Titre</li>
+              </ul>
+          </div>
+      </div>
+
+      <!-- LIGHTBOX -->
+
+<aside id="works-lightbox" aria-hidden="true">
+  <article id="lightbox-body" role='dialog'>
+      <span class="fas fa-times close-lightbox-icon" role="button" title="Close dialog"></span>
+      <span class="fas fa-chevron-left left-arrow-lightbox" role="button" title="Previous image"></span>
+      <span class="fas fa-chevron-right right-arrow-lightbox" role="button" title="Next image"></span>
+      <div id="works-lightbox-media"></div>
+      <div id="works-lightbox-name"></div>
+  </article>
+</aside>
       </main>
       <div id="contact_modal">
         <div class="modal">
@@ -60,8 +95,9 @@
         </div>
       </div>
       
+      
+
     </div>
     <script type="module" src="scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>

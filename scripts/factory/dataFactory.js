@@ -1,7 +1,7 @@
-import { buildImage } from "../utils/buildImage.js";
+import { buildImage } from "../templates/buildImage.js";
 
 // Fonction qui génère un élément de média en fonction des données fournies
-function createMediaElement(mediaData, mediaPath) {
+function createMediaElement(mediaData, mediaPath, likes = 0) {
   const mediaLink = document.createElement("a");
   mediaLink.href = "#";
   mediaLink.className = "media";
@@ -25,7 +25,13 @@ function createMediaElement(mediaData, mediaPath) {
     mediaVideo.preload = "auto";
 
     mediaLink.appendChild(mediaVideo);
+  } else {
+    console.error("Type de média non pris en charge :", mediaData);
+    return null;
   }
+
+  // Ajoutez un attribut "data-likes" à l'élément pour stocker le nombre de likes
+  mediaLink.setAttribute("data-likes", likes);
 
   return mediaLink;
 }
