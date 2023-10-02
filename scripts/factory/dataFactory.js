@@ -8,7 +8,7 @@ function createMediaElement(mediaData, mediaPath, likes = 0) {
   mediaLink.ariaLabel = `${mediaData.title} closeup view`;
 
   if (mediaData.image) {
-    // Utilisez buildImage pour créer l'élément image
+    // Utilise buildImage pour créer l'élément image
     const mediaImage = buildImage(`${mediaPath}/${mediaData.image}`, {
       alt: mediaData.title,
       loading: "lazy",
@@ -22,7 +22,7 @@ function createMediaElement(mediaData, mediaPath, likes = 0) {
     mediaVideo.src = `${mediaPath}/${mediaData.video}`;
     mediaVideo.controls = true;
 
-    // Ajoutez l'attribut "preload" pour précharger la vidéo
+    // Ajoute l'attribut "preload" pour précharger la vidéo
     mediaVideo.preload = "auto";
 
     mediaLink.appendChild(mediaVideo);
@@ -34,5 +34,5 @@ function createMediaElement(mediaData, mediaPath, likes = 0) {
   return mediaLink;
 }
 
-// Exportez la fonction pour l'utiliser ailleurs
+// Exporte la fonction pour l'utiliser ailleurs
 export { createMediaElement };

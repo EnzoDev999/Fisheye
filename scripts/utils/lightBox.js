@@ -1,10 +1,8 @@
-// lightBox.js
-
 import { photographerMedia } from "../pages/photographer.js";
 import { photographer } from "../pages/photographer.js";
 import lockFocus from "./lockFocus.js";
 
-// Sélectionnez les éléments de la lightbox
+// Sélectionne les éléments de la lightbox
 const lightbox = document.getElementById("works-lightbox");
 const closeLightboxIcon = document.querySelector(".close-lightbox-icon");
 const leftArrowLightbox = document.querySelector(".left-arrow-lightbox");
@@ -12,7 +10,7 @@ const rightArrowLightbox = document.querySelector(".right-arrow-lightbox");
 const lightboxMedia = document.getElementById("works-lightbox-media");
 const lightboxName = document.getElementById("works-lightbox-name");
 
-// Créez une variable pour suivre l'index de l'image ou de la vidéo actuellement affichée
+// Crée une variable pour suivre l'index de l'image ou de la vidéo actuellement affichée
 let currentMediaIndex = 0;
 
 //On cible notre body pour pouvoir le manipuler lors d'évènements
@@ -66,7 +64,7 @@ function displayMediaInLightbox(mediaUrl, mediaName) {
     lightboxMedia.appendChild(mediaImage);
   }
 
-  // Ajoutez le nom de l'image ou de la vidéo sous le contenu à gauche
+  // Ajoute le nom de l'image ou de la vidéo sous le contenu à gauche
   lightboxName.textContent = mediaName;
 }
 

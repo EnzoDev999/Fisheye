@@ -1,4 +1,4 @@
-// Importez les modules nécessaires
+// Importe les modules nécessaires
 import { textsBase } from "../templates/textsBase.js";
 import { createMediaElement } from "../factory/dataFactory.js";
 import { displayModal } from "../utils/contactForm.js";
@@ -23,6 +23,7 @@ function createHeartIcon(liked) {
   }
   return heartIcon;
 }
+
 // // DROPDOWN SECTION
 let data;
 function dropDown(data) {
@@ -46,17 +47,17 @@ dropDown(data);
 // On tire notre main pour pouvoir intégrer nos élements dans le DOM
 const mainPage = document.getElementById("main");
 
-// Sélectionnez l'élément HTML où vous voulez afficher les informations du photographe
+// Sélectionne l'élément HTML où on veut afficher les informations du photographe
 const photographerHeader = document.querySelector(".photograph-header");
 
-// Créez des divs dans notre espace grid
+// Crée des divs dans notre espace grid
 const headerCol1 = document.createElement("div");
 headerCol1.classList.add("col1");
 const headerCol2 = document.createElement("div");
 headerCol2.classList.add("col2");
 const headerCol3 = document.createElement("div");
 headerCol3.classList.add("col3");
-// Ajoutez ces divs à la structure HTML
+// Ajoute ces divs à la structure HTML
 photographerHeader.appendChild(headerCol1);
 photographerHeader.appendChild(headerCol2);
 photographerHeader.appendChild(headerCol3);
@@ -65,7 +66,7 @@ const buttonModal = document.querySelector(".contact_button");
 
 //TOTAL LIKES SECTION
 
-// Créez un élément pour afficher le nombre total de likes
+// Crée un élément pour afficher le nombre total de likes
 const totalLikesElement = document.createElement("p");
 totalLikesElement.classList.add("total-likes");
 totalLikesElement.textContent = "0"; // Initialisez à zéro
@@ -73,28 +74,30 @@ totalLikesElement.textContent = "0"; // Initialisez à zéro
 const totalLikesHeartIcon = document.createElement("div");
 totalLikesHeartIcon.classList.add("totalLikes-heartIcon-container");
 
-// Ajoutez l'encart au corps de la page
+// Ajoute l'encart au corps de la page
 const priceLikesContainer = document.createElement("div");
 
 let photographerId;
 
-// Utilisez fetch pour charger le fichier JSON des photographes
+// HEADER SECTION
+
+// Utilise fetch pour charger le fichier JSON des photographes
 fetch("../../data/photographers.json")
   .then((response) => response.json())
   .then((photographersData) => {
-    // Obtenez l'ID du photographe à partir de l'URL
+    // Obtiens l'ID du photographe à partir de l'URL
     photographerId = parseInt(getPhotographerId(), 10);
-    // Recherchez le photographe correspondant dans les données
+    // Recherche le photographe correspondant dans les données
     const photographer = photographersData.photographers.find(
       (photographer) => photographer.id === photographerId
     );
-    // Vérifiez si le photographe a été trouvé
+    // Vérifie si le photographe a été trouvé
     if (photographer) {
       buttonModal.addEventListener("click", () => {
         displayModal(photographer.name);
       });
 
-      // Utilisez textsBase pour générer tous les éléments
+      // Utilise textsBase pour générer tous les éléments
       const photographerNameElement = textsBase(
         photographer,
         "photographerName",
@@ -119,7 +122,7 @@ fetch("../../data/photographers.json")
       );
       const contactButton = document.querySelector(".contact_button");
 
-      // Ajoutez ces éléments aux divs correspondantes
+      // Ajoute ces éléments aux divs correspondantes
       headerCol1.appendChild(photographerNameElement);
       headerCol1.appendChild(photographerCityElement);
       headerCol1.appendChild(photographerTaglineElement);
@@ -129,7 +132,7 @@ fetch("../../data/photographers.json")
       // Appel de la fonction pour charger les médias du photographe
       loadPhotographerMedia(photographerId);
 
-      // Utilisez la fonction textsBase pour créer l'élément texte avec le tarif journalier
+      // Utilise la fonction textsBase pour créer l'élément texte avec le tarif journalier
       const dailyPriceElement = textsBase(
         photographer,
         "photographerPrice",
@@ -140,19 +143,19 @@ fetch("../../data/photographers.json")
       const encartHeartIcon = document.createElement("i");
       encartHeartIcon.classList.add("fa-heart", "fas");
 
-      // Ajoutez cet élément à l'encart
+      // Ajoute cet élément à l'encart
       totalLikesHeartIcon.appendChild(totalLikesElement);
       totalLikesHeartIcon.appendChild(encartHeartIcon);
       priceLikesContainer.appendChild(totalLikesHeartIcon);
 
-      // Ajoutez cet élément texte à l'encart
+      // Ajoute cet élément texte à l'encart
       priceLikesContainer.appendChild(dailyPriceElement);
 
-      // Ajoutez des classes CSS pour le formattage
+      // Ajoute des classes CSS pour le formattage
       priceLikesContainer.classList.add("price-likes-container");
       dailyPriceElement.classList.add("daily-price");
 
-      // Ajoutez l'encart au corps de la page
+      // Ajoute l'encart au corps de la page
       document.body.appendChild(priceLikesContainer);
     } else {
       console.error("Le photographe n'a pas été trouvé.");
@@ -172,7 +175,6 @@ mediaGrid.classList.add("media-grid");
 mainPage.appendChild(mediaGrid);
 
 let photographerMedia = [];
-console.log("photographerMedia initialisé : ", photographerMedia);
 let photographer = [];
 let totalLikes = 0;
 
@@ -187,7 +189,7 @@ function handleLikeClick(
   mediaId,
   defaultLikes
 ) {
-  let numberOfLikes = defaultLikes; // Initialisez le nombre de likes avec la valeur par défaut
+  let numberOfLikes = defaultLikes; // Initialise le nombre de likes avec la valeur par défaut
   let isLiked = false;
 
   const heartIcon = createHeartIcon(isLiked);
@@ -210,7 +212,7 @@ function handleLikeClick(
     likeButton.innerHTML = "";
     likeButton.appendChild(newHeartIcon);
 
-    // // Mettez à jour le nombre total de likes et affichez-le
+    // Met à jour le nombre total de likes et l'affiche
     totalLikes += isLiked ? 1 : -1;
     totalLikesElement.textContent = `${totalLikes}`;
   });
@@ -222,19 +224,21 @@ function handleLikeClick(
   }
 }
 
-let sortBy; // Initialisez sortBy avec la valeur par défaut
+let sortBy; // Initialise sortBy
+
+// Ici c'est la fonction va faire l'écrasement de notre ancienne grille pour laisser place à la nouvelle
 
 function updateMediaGrid(photographerId, sortBy) {
-  // Effacez le contenu actuel de la grille
+  // Efface le contenu actuel de la grille
   while (mediaGrid.firstChild) {
     mediaGrid.removeChild(mediaGrid.firstChild);
   }
 
-  // Appelez la fonction loadPhotographerMedia pour obtenir les médias triés
+  // Appele la fonction loadPhotographerMedia pour obtenir les médias triés
   const sortedMedia = loadPhotographerMedia(photographerId, sortBy);
 
   if (sortedMedia) {
-    // Parcourez les médias triés et ajoutez-les à la grille
+    // Parcoure les médias triés et ajoute-les à la grille
     sortedMedia.forEach((media) => {
       const mediaElement = createMediaElement(media); // Créez une fonction createMediaElement pour générer l'élément HTML pour chaque média
       mediaGrid.appendChild(mediaElement);
@@ -242,42 +246,44 @@ function updateMediaGrid(photographerId, sortBy) {
   }
 }
 
-// Écoutez les clics sur les options de tri
+// Écoute les clics sur les options de tri
 const hiddenSort = document.getElementsByClassName("hidden-sort");
 const sortButtons = document.querySelectorAll(".sort");
 sortButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    // Obtenez l'option de tri à partir du texte du bouton
+    // Obtiens l'option de tri à partir du texte du bouton
     const selectedSortOption = button.textContent.toLowerCase().trim();
     hiddenSort[0].style.display = "none";
-    // Mettez à jour la valeur de sortBy
+    // Met à jour la valeur de sortBy
     sortBy = selectedSortOption;
-    // Mettez à jour la grille HTML avec les médias triés
+    // Met à jour la grille HTML avec les médias triés
     updateMediaGrid(photographerId, sortBy);
   });
 
-  // ajoute le fait de pouvoir faire entrer sur nos boutons
+  // ajoute le fait de pouvoir faire "entrer" sur nos boutons
 
   button.addEventListener("keydown", (e) => {
-    // Obtenez l'option de tri à partir du texte du bouton
+    // Obtiens l'option de tri à partir du texte du bouton
     console.log(e);
     if (e.code === "Enter") {
       const selectedSortOption = button.textContent.toLowerCase().trim();
       hiddenSort[0].style.display = "none";
-      // Mettez à jour la valeur de sortBy
+      // Met à jour la valeur de sortBy
       sortBy = selectedSortOption;
-      // Mettez à jour la grille HTML avec les médias triés
+      // Met à jour la grille HTML avec les médias triés
       updateMediaGrid(photographerId, sortBy);
     }
   });
 });
 
+// Fonction qui va générer notre grille de media avec toutes les informations tiré du json
+
 function loadPhotographerMedia(photographerId) {
-  // Utilisez fetch pour charger le fichier JSON des médias
+  // Utilise fetch pour charger le fichier JSON des médias
   fetch("../../data/photographers.json")
     .then((response) => response.json())
     .then((data) => {
-      // Recherchez le photographe correspondant dans les données
+      // Recherche le photographe correspondant dans les données
       photographer = data.photographers.find(
         (photographer) => photographer.id === photographerId
       );
@@ -324,10 +330,10 @@ function loadPhotographerMedia(photographerId) {
           const likeCount = document.createElement("span");
           likeCount.classList.add("like-count");
 
-          // // Obtenez la valeur par défaut des likes à partir du fichier JSON
+          // // Obtiens la valeur par défaut des likes à partir du fichier JSON
           const defaultLikes = media.likes;
 
-          // Mettez à jour le nombre total de likes d'une image lorsque le likeButton est cliqué
+          // Met à jour le nombre total de likes d'une image lorsque le likeButton est cliqué
           handleLikeClick(
             likeButton,
             likeCount,
@@ -347,7 +353,7 @@ function loadPhotographerMedia(photographerId) {
           mediaInfoContainer.appendChild(mediaName);
           mediaInfoContainer.appendChild(likeContainer);
 
-          // Ajoutez le conteneur de like à l'article
+          // Ajoute le conteneur de like à l'article
           mediaContainer.appendChild(mediaInfoContainer);
 
           mediaElement.addEventListener("click", () => {
@@ -369,11 +375,10 @@ function loadPhotographerMedia(photographerId) {
           });
         });
         totalLikesElement.textContent = `${totalLikes}`;
-        console.log("Médias après filtrage : ", photographerMedia);
-        // Retournez les médias triés
+
+        // Retourne les médias triés
         return photographerMedia;
       } else {
-        console.error("Le photographe n'a pas été trouvé.");
       }
     })
     .catch((error) => {
@@ -381,8 +386,6 @@ function loadPhotographerMedia(photographerId) {
         "Une erreur s'est produite lors du chargement des données :",
         error
       );
-      // Rejetez la promesse en cas d'erreur
-      reject(error);
     });
 }
 
