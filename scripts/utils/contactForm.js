@@ -1,7 +1,15 @@
-// Fonction pour afficher la modal de contact
+import lockFocus from "./lockFocus.js";
+
+let previouslyFocusedElement = null;
+
 function displayModal(photographerName) {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "block";
+
+  previouslyFocusedElement = document.activeElement;
+  modal.ariaLabel = `contactez moi ${photographerName}`;
+  const modalForm = document.getElementById("contactForm");
+  const firstFocusableElement = modalForm.querySelector("input:first-of-type");
 
   // Affiche le nom du photographe dans la modal
   const photographerNameElement = document.getElementById("photographer-name");
@@ -10,27 +18,35 @@ function displayModal(photographerName) {
   // Ajoute la classe "modal-open" au body
   const body = document.querySelector("body");
   body.classList.add("modal-open");
+
+  // Verrouille le focus à l'intérieur de la modal
+  lockFocus(modalForm);
+
+  // Définit le focus sur le premier élément interactif de la modal
+  firstFocusableElement.focus();
 }
 
-// Fonction pour fermer la modal
 function closeModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
 
+  // Rétablit le focus sur l'élément précédemment focusé
+  if (previouslyFocusedElement) {
+    previouslyFocusedElement.focus();
+  }
+
   // Supprime la classe "modal-open" du body
   const body = document.querySelector("body");
-  body.removeAttribute("class");
+  body.classList.remove("modal-open");
 }
 
-const closeIcon = document.querySelector(".close_icon");
-closeIcon.addEventListener("click", () => {
+const closeButton = document.getElementById("closeButton");
+closeButton.addEventListener("click", () => {
   closeModal();
 });
 
-// Obtenir le formulaire
 const contactForm = document.querySelector("#contact_modal form");
 
-// Écouter l'événement de soumission du formulaire
 contactForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const firstName = document.getElementById("first_name").value;
@@ -44,7 +60,6 @@ contactForm.addEventListener("submit", function (e) {
   console.log("Email:", email);
   console.log("Message:", message);
 
-  // Ferme la modal
   closeModal();
 });
 

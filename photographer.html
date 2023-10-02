@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/lightBox.css" type="text/css">
@@ -23,7 +23,7 @@
         <!-- HEADER SECTION -->
 
         <header class="photograph-header" aria-label="photographer information">
-          <button class="contact_button">Contactez-moi</button>
+          <button class="contact_button" aria-label="Contact Me">Contactez-moi</button>
         </header>
 
         <!-- DROPDOWN -->
@@ -31,13 +31,13 @@
         <div class="works-sort">
           <span id="sort-text">Trier par</span>
           <div id="sort-wrapper">
-              <button class="sort-btn" aria-haspopup="listbox">Popularité</button>
+              <button class="sort-btn" aria-haspopup="listbox" aria-label="Order by">Popularité</button>
               <span class="fas fa-chevron-down arrow-down-open" role='button'></span>
-              <ul class="hidden-sort" role="listbox">
-                  <li class="sort" role='option'>Popularité<span class="fas fa-chevron-up arrow-up-close"></span>
+              <ul class="hidden-sort" role="listbox" tabindex="-1">
+                  <li class="sort" role='option' tabindex="0">Popularité<span class="fas fa-chevron-up arrow-up-close"></span>
                   </li>
-                  <li class="sort" role='option'>Date</li>
-                  <li class="sort" role='option'>Titre</li>
+                  <li class="sort" role='option' tabindex="0">Date</li>
+                  <li class="sort" role='option' tabindex="0">Titre</li>
               </ul>
           </div>
       </div>
@@ -45,52 +45,57 @@
       <!-- LIGHTBOX -->
 
 <aside id="works-lightbox" aria-hidden="true">
-  <article id="lightbox-body" role='dialog'>
-      <span class="fas fa-times close-lightbox-icon" role="button" title="Close dialog"></span>
-      <span class="fas fa-chevron-left left-arrow-lightbox" role="button" title="Previous image"></span>
-      <span class="fas fa-chevron-right right-arrow-lightbox" role="button" title="Next image"></span>
+  <article id="lightbox-body" role='dialog' aria-label="image closeup view">
+      <button class="fas fa-times close-lightbox-icon" role="button" alt="Close dialog"></button>
+      <button class="fas fa-chevron-left left-arrow-lightbox" role="button" alt="Previous image"></button>
+      <button class="fas fa-chevron-right right-arrow-lightbox" role="button" alt="Next image"></button>
       <div id="works-lightbox-media"></div>
       <div id="works-lightbox-name"></div>
   </article>
 </aside>
       </main>
       <div id="contact_modal">
-        <div class="modal">
+        <div class="modal" id="contactForm">
           <header class="modal-header">
             <div class="ph-info">
             <h1>Contactez-moi</h1>
-            <h1 id="photographer-name"></h1>
+            <h1 id="photographer-name">
+              <!-- On met un span qui sera hidden pour ne pas avoir un heading vide(erreur wcag)-->
+              <span aria-hidden="true">photographer Name</span>
+            </h1>
             </div>
-            <img class="close_icon" src="assets/icons/close.svg" />
+            <button id="closeButton" aria-label="Close Contact form">
+            <img class="close_icon" src="assets/icons/close.svg" alt="close button" />
+          </button>
           </header>
           <form>
             
             <!-- Prénom -->
             <div>
-              <label for="first_name">Prénom</label>
-              <input type="text" id="first_name" required>
+              <label  for="first_name">Prénom</label>
+              <input aria-label="First name" type="text" id="first_name" required>
             </div>
       
             <!-- Nom -->
             <div>
-              <label for="last_name">Nom</label>
-              <input type="text" id="last_name" required>
+              <label  for="last_name">Nom</label>
+              <input aria-label="Last name" type="text" id="last_name" required>
             </div>
       
             <!-- Email -->
             <div>
-              <label for="email">Email</label>
-              <input type="email" id="email" required>
+              <label  for="email">Email</label>
+              <input aria-label="Email" type="email" id="email" required>
             </div>
       
             <!--  message -->
             <div>
-              <label for="message">Votre message</label>
+              <label aria-label="Your message"  for="message">Votre message</label>
               <textarea id="message" rows="4"></textarea>
             </div>
       
             <!-- Bouton Envoyer -->
-            <button class="contact_button" type="submit">Envoyer</button>
+            <button  aria-label="Send" class="contact_button" type="submit">Envoyer</button>
           </form>
         </div>
       </div>

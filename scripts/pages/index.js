@@ -17,6 +17,7 @@ fetch("../../data/photographers.json")
       // Crée un élément <a> qui vas permettre d'englober les éléments qu'on souhaites rendre cliquable
       const photographerLink = document.createElement("a");
       photographerLink.href = `photographer.html?id=${photographer.id}`;
+      photographerLink.ariaLabel = photographer.name;
       photographerLink.classList.add("photographer-redirect");
 
       // Crée une image du photographe avec textsBase

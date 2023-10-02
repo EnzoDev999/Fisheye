@@ -3,6 +3,7 @@ import { textsBase } from "../templates/textsBase.js";
 import { createMediaElement } from "../factory/dataFactory.js";
 import { displayModal } from "../utils/contactForm.js";
 import { openLightbox } from "../utils/lightBox.js";
+import handleSort from "../templates/sortBy.js";
 
 // Fonction pour obtenir le paramètre 'id' de l'URL
 function getPhotographerId() {
@@ -13,6 +14,7 @@ function getPhotographerId() {
 // Fonction pour créer un élément d'icône de cœur
 function createHeartIcon(liked) {
   const heartIcon = document.createElement("i");
+  heartIcon.ariaLabel = "likes";
   heartIcon.classList.add("fa-heart");
   if (liked) {
     heartIcon.classList.add("fas"); // Ajoutez la classe "fas" pour le cœur rempli
@@ -29,15 +31,13 @@ function dropDown(data) {
   const hiddenSort = document.getElementsByClassName("hidden-sort");
   if (arrowOpen.length > 0) {
     arrowOpen[0].addEventListener("click", () => {
-      hiddenSort[0].style.display = "block";
-      mediaGrid.style.margin = "170px 100px 0 100px";
+      hiddenSort[0].style.display = "flex";
     });
   }
 
   if (arrowClose.length > 0) {
     arrowClose[0].addEventListener("click", () => {
       hiddenSort[0].style.display = "none";
-      mediaGrid.style.margin = "101px 100px 0 100px";
     });
   }
 }
@@ -174,7 +174,7 @@ mainPage.appendChild(mediaGrid);
 let photographerMedia = [];
 console.log("photographerMedia initialisé : ", photographerMedia);
 let photographer = [];
-let totalLikes = 0; // Initialisez le nombre total de likes à zéro
+let totalLikes = 0;
 
 function updateLikeCount(likeCount, numberOfLikes) {
   likeCount.textContent = numberOfLikes;
@@ -187,7 +187,7 @@ function handleLikeClick(
   mediaId,
   defaultLikes
 ) {
-  let numberOfLikes = mediaLikes[mediaId] || defaultLikes; // Initialisez le nombre de likes avec la valeur par défaut
+  let numberOfLikes = defaultLikes; // Initialisez le nombre de likes avec la valeur par défaut
   let isLiked = false;
 
   const heartIcon = createHeartIcon(isLiked);
@@ -204,9 +204,6 @@ function handleLikeClick(
       isLiked = true;
     }
 
-    // Mettez à jour l'objet mediaLikes avec le nouveau nombre de likes
-    mediaLikes[mediaId] = numberOfLikes;
-    console.log("nombre de likes : ", mediaLikes[mediaId]);
     updateLikeCount(likeCount, numberOfLikes);
 
     const newHeartIcon = createHeartIcon(isLiked);
@@ -228,7 +225,6 @@ function handleLikeClick(
 let sortBy; // Initialisez sortBy avec la valeur par défaut
 
 function updateMediaGrid(photographerId, sortBy) {
-  console.log("updateMediaGrid appelée avec sortBy : ", sortBy);
   // Effacez le contenu actuel de la grille
   while (mediaGrid.firstChild) {
     mediaGrid.removeChild(mediaGrid.firstChild);
@@ -238,10 +234,6 @@ function updateMediaGrid(photographerId, sortBy) {
   const sortedMedia = loadPhotographerMedia(photographerId, sortBy);
 
   if (sortedMedia) {
-    // Vérifiez si sortedMedia est défini
-    // Affichez les médias triés dans la console pour le débogage
-    console.log("Médias triés : ", sortedMedia);
-
     // Parcourez les médias triés et ajoutez-les à la grille
     sortedMedia.forEach((media) => {
       const mediaElement = createMediaElement(media); // Créez une fonction createMediaElement pour générer l'élément HTML pour chaque média
@@ -256,23 +248,29 @@ const sortButtons = document.querySelectorAll(".sort");
 sortButtons.forEach((button) => {
   button.addEventListener("click", () => {
     // Obtenez l'option de tri à partir du texte du bouton
-    const selectedSortOption = button.textContent.toLowerCase();
+    const selectedSortOption = button.textContent.toLowerCase().trim();
     hiddenSort[0].style.display = "none";
-    console.log(button);
     // Mettez à jour la valeur de sortBy
     sortBy = selectedSortOption;
-    console.log("Bouton de tri cliqué :", sortBy);
-
-    console.log("Avant l'appel à updateMediaGrid : sortBy =", sortBy);
-
     // Mettez à jour la grille HTML avec les médias triés
     updateMediaGrid(photographerId, sortBy);
+  });
 
-    console.log("après l'appel à updateMediaGrid : sortBy =", sortBy);
+  // ajoute le fait de pouvoir faire entrer sur nos boutons
+
+  button.addEventListener("keydown", (e) => {
+    // Obtenez l'option de tri à partir du texte du bouton
+    console.log(e);
+    if (e.code === "Enter") {
+      const selectedSortOption = button.textContent.toLowerCase().trim();
+      hiddenSort[0].style.display = "none";
+      // Mettez à jour la valeur de sortBy
+      sortBy = selectedSortOption;
+      // Mettez à jour la grille HTML avec les médias triés
+      updateMediaGrid(photographerId, sortBy);
+    }
   });
 });
-
-const mediaLikes = {};
 
 function loadPhotographerMedia(photographerId) {
   // Utilisez fetch pour charger le fichier JSON des médias
@@ -289,31 +287,11 @@ function loadPhotographerMedia(photographerId) {
         photographerMedia = data.media.filter(
           (media) => media.photographerId === photographerId
         );
-        console.log("Médias après filtrage : ", photographerMedia);
-        totalLikes = 0;
 
-        console.log("Tri en cours : ", sortBy); // Cette ligne affiche la valeur de sortBy avant le tri
-
-        // Tri en fonction du critère choisi
-        if (sortBy === "titre") {
-          console.log("Tri par titre en cours...");
-          photographerMedia.sort((a, b) => a.title.localeCompare(b.title));
-          console.log("Médias triés par titre : ", photographerMedia);
-        } else if (sortBy === "date") {
-          console.log("Tri par date en cours...");
-          photographerMedia.sort((a, b) => new Date(a.date) - new Date(b.date));
-          console.log("Médias triés par date : ", photographerMedia);
-        } else {
-          // Si sortBy n'est ni "titre" ni "date", effectuer le tri par popularité
-          console.log("Tri par popularité en cours...");
-          photographerMedia.sort((a, b) => b.likes - a.likes);
-          console.log("Médias triés par popularité : ", photographerMedia);
-        }
+        handleSort(sortBy, photographerMedia);
 
         // on crée et affiche chaque élément média
         photographerMedia.forEach((media) => {
-          mediaLikes[media.id] = media.likes || 0;
-          console.log("test media likes:", mediaLikes[media.id]);
           // On crée la div global qui va contenir l'image et les textes en dessous
           const mediaContainer = document.createElement("article");
           mediaContainer.classList.add("media-container");
@@ -341,12 +319,13 @@ function loadPhotographerMedia(photographerId) {
 
           const likeButton = document.createElement("button");
           likeButton.classList.add("like-button");
+          likeButton.ariaLabel = "like button";
 
           const likeCount = document.createElement("span");
           likeCount.classList.add("like-count");
 
-          // Obtenez la valeur par défaut des likes à partir du fichier JSON
-          const defaultLikes = media.likes || 0;
+          // // Obtenez la valeur par défaut des likes à partir du fichier JSON
+          const defaultLikes = media.likes;
 
           // Mettez à jour le nombre total de likes d'une image lorsque le likeButton est cliqué
           handleLikeClick(
@@ -357,8 +336,9 @@ function loadPhotographerMedia(photographerId) {
             defaultLikes
           );
 
-          totalLikes += media.likes || 0;
-
+          totalLikes = photographerMedia
+            .map((media) => media.likes)
+            .reduce((a, b) => a + b);
           // Met ensemble le nombre de like/button like
           likeContainer.appendChild(likeCount);
           likeContainer.appendChild(likeButton);
@@ -405,8 +385,6 @@ function loadPhotographerMedia(photographerId) {
       reject(error);
     });
 }
-
-console.log("tableau de likes", mediaLikes);
 
 export { photographerMedia };
 

@@ -5,6 +5,7 @@ function createMediaElement(mediaData, mediaPath, likes = 0) {
   const mediaLink = document.createElement("a");
   mediaLink.href = "#";
   mediaLink.className = "media";
+  mediaLink.ariaLabel = `${mediaData.title} closeup view`;
 
   if (mediaData.image) {
     // Utilisez buildImage pour créer l'élément image
@@ -29,9 +30,6 @@ function createMediaElement(mediaData, mediaPath, likes = 0) {
     console.error("Type de média non pris en charge :", mediaData);
     return null;
   }
-
-  // Ajoutez un attribut "data-likes" à l'élément pour stocker le nombre de likes
-  mediaLink.setAttribute("data-likes", likes);
 
   return mediaLink;
 }
