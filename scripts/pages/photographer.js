@@ -264,7 +264,7 @@ sortButtons.forEach((button) => {
 
   button.addEventListener("keydown", (e) => {
     // Obtiens l'option de tri à partir du texte du bouton
-    console.log(e);
+
     if (e.code === "Enter") {
       const selectedSortOption = button.textContent.toLowerCase().trim();
       hiddenSort[0].style.display = "none";
