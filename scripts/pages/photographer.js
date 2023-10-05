@@ -82,7 +82,7 @@ let photographerId;
 // HEADER SECTION
 
 // Utilise fetch pour charger le fichier JSON des photographes
-fetch("../../data/photographers.json")
+fetch("data/photographers.json")
   .then((response) => response.json())
   .then((photographersData) => {
     // Obtiens l'ID du photographe à partir de l'URL
@@ -280,7 +280,7 @@ sortButtons.forEach((button) => {
 
 function loadPhotographerMedia(photographerId) {
   // Utilise fetch pour charger le fichier JSON des médias
-  fetch("../../data/photographers.json")
+  fetch("data/photographers.json")
     .then((response) => response.json())
     .then((data) => {
       // Recherche le photographe correspondant dans les données

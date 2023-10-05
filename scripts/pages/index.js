@@ -5,7 +5,7 @@ import { textsBase } from "../templates/textsBase.js";
 const photographerSection = document.querySelector(".photographer_section");
 
 // Utilise fetch pour charger le fichier JSON des photographes
-fetch("../../data/photographers.json")
+fetch("data/photographers.json")
   .then((response) => response.json())
   .then((photographersData) => {
     // Parcours la liste des photographes et génère les éléments pour chaque photographe
